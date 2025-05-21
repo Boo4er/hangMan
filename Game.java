@@ -9,10 +9,8 @@ public class Game {
         return wordsDictionary.getWordsDictionary()[random.nextInt(wordsDictionary.getWordsDictionary().length)];
     }
 
-    public static void main(String[] args) {
+    public static void startsNewGame() {
         String secretWord = getRandomWord().toLowerCase();
-        System.out.println("Загаданное слово: " + secretWord);
-
         char[] hiddenWord = new char[secretWord.length()];
         Arrays.fill(hiddenWord, '_');
 
@@ -21,11 +19,9 @@ public class Game {
         int mistakes = 0;
 
         while (attempts > 0 && new String(hiddenWord).contains("_")) {
-            // Очистка экрана (работает в большинстве консолей)
-            System.out.print("\033[H\033[2J");
+            System.out.print("\033[H\033[2J");  // Очистка консоли
             System.out.flush();
 
-            // Выводим текущее состояние виселицы
             Graphics.printStage(mistakes);
             System.out.println("\nСлово: " + String.valueOf(hiddenWord));
             System.out.println("Осталось попыток: " + attempts);
@@ -47,7 +43,6 @@ public class Game {
                 System.out.println("Нет такой буквы! Осталось попыток: " + attempts);
             }
 
-            // Небольшая пауза перед очисткой экрана
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -55,7 +50,6 @@ public class Game {
             }
         }
 
-        // Финальное состояние
         System.out.print("\033[H\033[2J");
         System.out.flush();
 
@@ -66,7 +60,5 @@ public class Game {
             Graphics.printStage(6); // Полная виселица
             System.out.println("\nИгра окончена! Загаданное слово было: " + secretWord);
         }
-
-        scanner.close();
     }
 }
