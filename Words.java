@@ -126,13 +126,8 @@ public class Words {
             "школа",
             "экран",
             "энергия",
-            "язык"};
-
-    public void printAllWords() {
-        for (String word : wordsDictionary) {
-            System.out.println(word);
-        }
-    }
+            "язык"
+    };
 
     public String[] getWordsDictionary() {
         return wordsDictionary;

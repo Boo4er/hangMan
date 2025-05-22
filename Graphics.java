@@ -1,5 +1,5 @@
 public class Graphics {
-    private static final String[] STAGES = {
+    private static final String[] HANGMAN_STAGES = {
             // 0 ошибок (начальное состояние)
             """
           +---+
@@ -79,21 +79,8 @@ public class Graphics {
     };
 
     public static void printStage(int wrongAttempts) {
-        // Проверяем границы массива
-        int stage = Math.min(Math.max(wrongAttempts, 0), STAGES.length - 1);
-        System.out.println(STAGES[stage]);
-    }
-
-    public static void animateHanging() throws InterruptedException {
-        System.out.print("\033[H\033[2J"); // Очистка экрана
-        System.out.flush();
-
-        for (int i = 0; i < STAGES.length; i++) {
-            System.out.print("\033[H\033[2J"); // Очистка экрана
-            System.out.println("Этап " + (i + 1) + " из " + STAGES.length);
-            printStage(i);
-            Thread.sleep(1000); // Пауза 1 секунда
-        }
+        int stage = Math.min(Math.max(wrongAttempts, 0), HANGMAN_STAGES.length - 1);
+        System.out.println(HANGMAN_STAGES[stage]);
     }
 
     public static void printFinalStage(boolean isWin) {
@@ -106,7 +93,7 @@ public class Graphics {
                  / \\
             """);
         } else {
-            printStage(STAGES.length - 1);
+            printStage(6);
             System.out.println("Игра окончена! Вы проиграли!");
         }
     }

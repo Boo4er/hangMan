@@ -1,26 +1,22 @@
 import java.util.Scanner;
-public class HangManApp {
-    private static Scanner scanner = new Scanner(System.in);
+
+public class HangManApp extends Game {
+    private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         while (true) {
-            System.out.println("\n1. Начать новую игру");
-            System.out.println("2. Выйти из игры");
-            System.out.print("Выберите действие: ");
+            printMenu();
 
             try {
                 int choice = Integer.parseInt(scanner.nextLine());
 
-                switch (choice) {
-                    case 1:
-                        startGame();
-                        break;
-                    case 2:
-                        System.out.println("Выход из игры...");
-                        scanner.close();
-                        return;
-                    default:
-                        System.out.println("Неверный ввод! Попробуйте еще раз.");
+                if (choice == 2) {
+                    System.out.println("Выход из игры...");
+                    return;
+                } else if (choice == 1) {
+                    startGame();
+                } else {
+                    System.out.println("Неверный ввод! Попробуйте еще раз.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Ошибка: введите число!");
@@ -28,13 +24,16 @@ public class HangManApp {
         }
     }
 
-    public static void startGame() {
-        Game.startsNewGame();
+    private static void printMenu() {
+        System.out.println("\n1. Начать новую игру");
+        System.out.println("2. Выйти из игры");
+        System.out.print("Выберите действие: ");
+    }
 
-        System.out.print("\nХотите сыграть еще раз? (y/n): ");
-        String answer = scanner.nextLine().toLowerCase();
-        if (answer.equals("y")) {
-            startGame();
-        }
+    public static void startGame() {
+        do {
+            Game.startsNewGame();
+            System.out.print("\nХотите сыграть еще раз? (да/нет): ");
+        } while (scanner.nextLine().equalsIgnoreCase("да"));
     }
 }

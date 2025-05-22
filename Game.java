@@ -3,14 +3,16 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
-    public static String getRandomWord() {
-        Random random = new Random();
-        Words wordsDictionary = new Words();
-        return wordsDictionary.getWordsDictionary()[random.nextInt(wordsDictionary.getWordsDictionary().length)];
+    private static final Random random = new Random();
+    private static final Words wordsDictionary = new Words();
+
+    private static String getRandomWord() {
+        String[] dictionary = wordsDictionary.getWordsDictionary();
+        return dictionary[random.nextInt(dictionary.length)].toLowerCase();
     }
 
     public static void startsNewGame() {
-        String secretWord = getRandomWord().toLowerCase();
+        String secretWord = getRandomWord();
         char[] hiddenWord = new char[secretWord.length()];
         Arrays.fill(hiddenWord, '_');
 
@@ -19,23 +21,14 @@ public class Game {
         int mistakes = 0;
 
         while (attempts > 0 && new String(hiddenWord).contains("_")) {
-            System.out.print("\033[H\033[2J");  // Очистка консоли
-            System.out.flush();
-
+            clearConsole();
             Graphics.printStage(mistakes);
+
             System.out.println("\nСлово: " + String.valueOf(hiddenWord));
             System.out.println("Осталось попыток: " + attempts);
-            System.out.print("Введите букву: ");
 
-            char guess = scanner.next().toLowerCase().charAt(0);
-            boolean found = false;
-
-            for (int i = 0; i < secretWord.length(); i++) {
-                if (secretWord.charAt(i) == guess) {
-                    hiddenWord[i] = guess;
-                    found = true;
-                }
-            }
+            char guess = getValidInput(scanner);
+            boolean found = updateHiddenWord(secretWord, hiddenWord, guess);
 
             if (!found) {
                 attempts--;
@@ -43,21 +36,59 @@ public class Game {
                 System.out.println("Нет такой буквы! Осталось попыток: " + attempts);
             }
 
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            sleep(500);
         }
 
+        showFinalResult(secretWord, hiddenWord);
+    }
+
+    private static void clearConsole() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }
+
+    private static char getValidInput(Scanner scanner) {
+        while (true) {
+            System.out.print("Введите букву: ");
+            String input = scanner.next().toLowerCase();
+
+            if (input.length() == 1 && Character.UnicodeBlock.of(input.charAt(0)).equals(Character.UnicodeBlock.CYRILLIC)) {
+                return input.charAt(0);
+            }
+
+            System.out.println("Ошибка! Введите одну букву кириллицы.");
+            sleep(1000);
+            clearConsole();
+        }
+    }
+
+    private static boolean updateHiddenWord(String secretWord, char[] hiddenWord, char guess) {
+        boolean found = false;
+        for (int i = 0; i < secretWord.length(); i++) {
+            if (secretWord.charAt(i) == guess) {
+                hiddenWord[i] = guess;
+                found = true;
+            }
+        }
+        return found;
+    }
+
+    private static void sleep(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private static void showFinalResult(String secretWord, char[] hiddenWord) {
+        clearConsole();
 
         if (!new String(hiddenWord).contains("_")) {
             Graphics.printFinalStage(true);
             System.out.println("\nПоздравляем! Вы угадали слово: " + secretWord);
         } else {
-            Graphics.printStage(6); // Полная виселица
+            Graphics.printStage(6);
             System.out.println("\nИгра окончена! Загаданное слово было: " + secretWord);
         }
     }
