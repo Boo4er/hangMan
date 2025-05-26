@@ -18,7 +18,7 @@ public class Game {
 
         Scanner scanner = new Scanner(System.in);
         int attempts = 6;
-        int mistakes = 0;
+        int mistakes = 0;//
 
         while (attempts > 0 && new String(hiddenWord).contains("_")) {
             clearConsole();
