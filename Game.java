@@ -1,10 +1,13 @@
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.HashSet;
 
 public class Game {
     private static final Random random = new Random();
     private static final Words wordsDictionary = new Words();
+    private static final  Set<Character> enteredChars = new HashSet<>();
 
     private static String getRandomWord() {
         String[] dictionary = wordsDictionary.getWordsDictionary();
@@ -48,17 +51,30 @@ public class Game {
     }
 
     private static char getValidInput(Scanner scanner) {
+
         while (true) {
             System.out.print("Введите букву: ");
-            String input = scanner.next().toLowerCase();
+            String input = scanner.nextLine().trim().toLowerCase();
 
-            if (input.length() == 1 && Character.UnicodeBlock.of(input.charAt(0)).equals(Character.UnicodeBlock.CYRILLIC)) {
-                return input.charAt(0);
+            if (input.length() != 1) {
+                System.out.println("Ошибка: введите ровно один символ!");
+                continue;
             }
 
-            System.out.println("Ошибка! Введите одну букву кириллицы.");
-            sleep(1000);
-            clearConsole();
+            char ch = input.charAt(0);
+
+            if (!Character.UnicodeBlock.of(ch).equals(Character.UnicodeBlock.CYRILLIC)) {
+                System.out.println("Ошибка: символ '" + ch + "' не является кириллицей!");
+                continue;
+            }
+
+            if (enteredChars.contains(ch)) {
+                System.out.println("Ошибка: символ '" + ch + "' уже был введён ранее!");
+                continue;
+            }
+
+            enteredChars.add(ch);
+            return ch;
         }
     }
 

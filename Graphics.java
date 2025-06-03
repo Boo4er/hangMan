@@ -83,7 +83,7 @@ public class Graphics {
         System.out.println(HANGMAN_STAGES[stage]);
     }
 
-    public static void printFinalStage(boolean isWin) {
+       public static void printFinalStage(boolean isWin) {
         System.out.print("\033[H\033[2J");
         if (isWin) {
             System.out.println("""
@@ -92,9 +92,6 @@ public class Graphics {
                   |
                  / \\
             """);
-        } else {
-            printStage(6);
-            System.out.println("Игра окончена! Вы проиграли!");
         }
     }
 }
