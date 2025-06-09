@@ -1,7 +1,5 @@
-import java.util.List;
-
-public class Words {
-    private final String[] wordsDictionary = {
+public class Dictionary {
+    private static final String[] WORDS_DICTIONARY = {
             "автомобиль",
             "адрес",
             "апельсин",
@@ -129,7 +127,7 @@ public class Words {
             "язык"
     };
 
-    public String[] getWordsDictionary() {
-        return wordsDictionary;
+    public String[] getWords() {
+        return WORDS_DICTIONARY;
     }
 }

@@ -6,11 +6,11 @@ import java.util.HashSet;
 
 public class Game {
     private static final Random random = new Random();
-    private static final Words wordsDictionary = new Words();
-    private static final  Set<Character> enteredChars = new HashSet<>();
+    private static final Dictionary wordsDictionary = new Dictionary();
+    private static final Set<Character> enteredChars = new HashSet<>();
 
     private static String getRandomWord() {
-        String[] dictionary = wordsDictionary.getWordsDictionary();
+        String[] dictionary = wordsDictionary.getWords();
         return dictionary[random.nextInt(dictionary.length)].toLowerCase();
     }
 
@@ -29,6 +29,7 @@ public class Game {
 
             System.out.println("\nСлово: " + String.valueOf(hiddenWord));
             System.out.println("Осталось попыток: " + attempts);
+            System.out.println("Ранее введенные буквы" + enteredChars);
 
             char guess = getValidInput(scanner);
             boolean found = updateHiddenWord(secretWord, hiddenWord, guess);
@@ -37,12 +38,14 @@ public class Game {
                 attempts--;
                 mistakes++;
                 System.out.println("Нет такой буквы! Осталось попыток: " + attempts);
+                System.out.println("Ранее введенные буквы" + enteredChars);
             }
 
             sleep(500);
         }
 
         showFinalResult(secretWord, hiddenWord);
+        enteredChars.clear();
     }
 
     private static void clearConsole() {

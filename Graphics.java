@@ -1,6 +1,5 @@
 public class Graphics {
     private static final String[] HANGMAN_STAGES = {
-            // 0 ошибок (начальное состояние)
             """
           +---+
           |   |
@@ -11,7 +10,6 @@ public class Graphics {
         =========
         """,
 
-            // 1 ошибка (голова)
             """
           +---+
           |   |
@@ -22,7 +20,6 @@ public class Graphics {
         =========
         """,
 
-            // 2 ошибки (туловище)
             """
           +---+
           |   |
@@ -33,7 +30,6 @@ public class Graphics {
         =========
         """,
 
-            // 3 ошибки (левая рука)
             """
           +---+
           |   |
@@ -44,7 +40,6 @@ public class Graphics {
         =========
         """,
 
-            // 4 ошибки (обе руки)
             """
           +---+
           |   |
@@ -55,7 +50,6 @@ public class Graphics {
         =========
         """,
 
-            // 5 ошибок (левая нога)
             """
           +---+
           |   |
@@ -66,7 +60,6 @@ public class Graphics {
         =========
         """,
 
-            // 6 ошибок (полная фигура - проигрыш)
             """
           +---+
           |   |
@@ -83,15 +76,15 @@ public class Graphics {
         System.out.println(HANGMAN_STAGES[stage]);
     }
 
-       public static void printFinalStage(boolean isWin) {
+    public static void printFinalStage(boolean isWin) {
         System.out.print("\033[H\033[2J");
         if (isWin) {
             System.out.println("""
-              Поздравляем! Вы выиграли!
-                 \\O/
-                  |
-                 / \\
-            """);
+                      Поздравляем! Вы выиграли!
+                         \\O/
+                          |
+                         / \\
+                    """);
         }
     }
 }

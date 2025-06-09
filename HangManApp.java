@@ -12,6 +12,7 @@ public class HangManApp extends Game {
 
                 if (choice == 2) {
                     System.out.println("Выход из игры...");
+                    scanner.close();
                     return;
                 } else if (choice == 1) {
                     startGame();
@@ -31,9 +32,26 @@ public class HangManApp extends Game {
     }
 
     public static void startGame() {
+        Scanner scanner = new Scanner(System.in);
+        String playAgain;
+
         do {
             Game.startsNewGame();
-            System.out.print("\nХотите сыграть еще раз? (да/нет): ");
-        } while (scanner.nextLine().equalsIgnoreCase("да"));
+
+            // Цикл для проверки корректности ответа
+            while (true) {
+                System.out.print("\nХотите сыграть еще раз? (да/нет): ");
+                playAgain = scanner.nextLine().trim().toLowerCase();
+
+                if (playAgain.equals("да") || playAgain.equals("нет")) {
+                    break; // Выход из цикла проверки, если ввод корректен
+                } else {
+                    System.out.println("Пожалуйста, введите только 'да' или 'нет'!");
+                }
+            }
+
+        } while (playAgain.equals("да"));
+
+        System.out.println("Игра завершена. До свидания!");
     }
 }
